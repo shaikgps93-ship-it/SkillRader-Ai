@@ -1,4 +1,3 @@
-```python
 import streamlit as st
 import sqlite3
 import pandas as pd
@@ -100,4 +99,3 @@ if uploaded_file:
 
     for skill in list(missing_skills)[:3]:
         st.info(f"Learn {skill}")
-```
