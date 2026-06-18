@@ -1,4 +1,3 @@
-```python
 import streamlit as st
 
 st.title("🤖 AI Career Advisor")
@@ -82,4 +81,4 @@ if st.button("Generate Advice"):
 
     for i, step in enumerate(roadmap, start=1):
         st.write(f"{i}. {step}")
-```
+
