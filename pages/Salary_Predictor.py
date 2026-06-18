@@ -1,4 +1,3 @@
-```python
 import streamlit as st
 import pandas as pd
 import sqlite3
@@ -92,4 +91,4 @@ if "Python" in skills and "AWS" not in skills:
 
 if "Excel" in skills and "Power BI" not in skills:
     st.info("Learn Power BI for BI Analyst roles.")
-```
+
