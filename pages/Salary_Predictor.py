@@ -1,12 +1,52 @@
+
 import streamlit as st
-import pandas as pd
 import sqlite3
-from sklearn.linear_model import LinearRegression
-import plotly.graph_objects as go
+import pandas as pd
 
-st.title("💰 AI Salary Predictor")
+# Page Config
+st.set_page_config(
+    page_title="Search Jobs",
+    page_icon="🔍",
+    layout="wide"
+)
 
-# Load data
+# Styling
+st.markdown("""
+<style>
+
+.stApp{
+    background: linear-gradient(135deg,#0B1120,#111827);
+}
+
+div[data-testid="metric-container"]{
+    background:#161B22;
+    border:1px solid #7C3AED;
+    border-radius:15px;
+    padding:15px;
+}
+
+.stButton > button{
+    background:#7C3AED;
+    color:white;
+    border:none;
+    border-radius:12px;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+# Home Button
+top1, top2 = st.columns([8,1])
+
+with top2:
+    if st.button("🏠 Home"):
+        st.switch_page("app.py")
+
+# Header
+st.title("🔍 Search Jobs")
+st.caption("Find opportunities based on company and experience")
+
+# Load Database
 conn = sqlite3.connect("database.db")
 
 df = pd.read_sql(
@@ -16,79 +56,78 @@ df = pd.read_sql(
 
 conn.close()
 
-# Convert columns
-df["salary_value"] = (
-    df["salary"]
-    .str.replace(" LPA", "", regex=False)
-    .astype(float)
+# Search Box
+search = st.text_input(
+    "Search Job Role",
+    placeholder="Data Analyst, Data Engineer..."
 )
 
-df["experience_value"] = (
-    df["experience"]
-    .str.replace(" Years", "", regex=False)
-    .str.replace(" Year", "", regex=False)
-    .astype(int)
-)
-
-# Train model
-X = df[["experience_value"]]
-y = df["salary_value"]
-
-model = LinearRegression()
-model.fit(X, y)
-
-# User Inputs
+# Filters
 col1, col2 = st.columns(2)
 
 with col1:
-    experience = st.slider(
-        "Years of Experience",
-        1,
-        10,
-        2
+    company_filter = st.multiselect(
+        "🏢 Company",
+        df["company"].unique()
     )
 
 with col2:
-    skills = st.multiselect(
-        "Skills",
-        ["SQL", "Python", "Power BI", "AWS", "Excel"]
+    experience_filter = st.multiselect(
+        "📈 Experience",
+        df["experience"].unique()
     )
 
-# Prediction
-prediction = model.predict([[experience]])
+# Apply Filters
+filtered_df = df.copy()
+
+if search:
+    filtered_df = filtered_df[
+        filtered_df["title"].str.contains(
+            search,
+            case=False,
+            na=False
+        )
+    ]
+
+if company_filter:
+    filtered_df = filtered_df[
+        filtered_df["company"].isin(company_filter)
+    ]
+
+if experience_filter:
+    filtered_df = filtered_df[
+        filtered_df["experience"].isin(experience_filter)
+    ]
+
+# Metrics
+m1, m2, m3 = st.columns(3)
+
+with m1:
+    st.metric("Jobs Found", len(filtered_df))
+
+with m2:
+    st.metric("Companies", filtered_df["company"].nunique())
+
+with m3:
+    st.metric("Roles", filtered_df["title"].nunique())
 
 st.divider()
 
-# Salary Card
-st.metric(
-    "Predicted Salary",
-    f"₹ {prediction[0]:.2f} LPA"
-)
+# Results
+st.subheader("Available Jobs")
 
-# Gauge Chart
-fig = go.Figure(go.Indicator(
-    mode="gauge+number",
-    value=prediction[0],
-    title={"text": "Salary Prediction"},
-    gauge={
-        "axis": {"range": [0, 20]}
-    }
-))
-
-st.plotly_chart(
-    fig,
+st.dataframe(
+    filtered_df,
     use_container_width=True
 )
 
-# Suggestions
-st.subheader("🚀 Recommendations")
+# Download
+csv = filtered_df.to_csv(index=False)
 
-if "SQL" in skills and "Python" not in skills:
-    st.info("Learn Python to increase salary potential.")
-
-if "Python" in skills and "AWS" not in skills:
-    st.info("Learn AWS for Data Engineering roles.")
-
-if "Excel" in skills and "Power BI" not in skills:
-    st.info("Learn Power BI for BI Analyst roles.")
+st.download_button(
+    "📥 Download Results",
+    csv,
+    "filtered_jobs.csv",
+    "text/csv"
+)
 
