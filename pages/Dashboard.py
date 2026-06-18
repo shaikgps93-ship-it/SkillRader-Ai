@@ -1,77 +1,109 @@
+```python
 import streamlit as st
+import sqlite3
 import pandas as pd
+import plotly.express as px
 
 st.title("📊 Dashboard")
 
 # Load data
-df = pd.read_csv("jobs.csv")
+conn = sqlite3.connect("database.db")
 
-# -----------------------------
-# Filters
-# -----------------------------
-st.sidebar.header("Filters")
-
-selected_company = st.sidebar.multiselect(
-    "Select Company",
-    options=df["company"].unique(),
-    default=df["company"].unique()
+df = pd.read_sql(
+    "SELECT * FROM jobs",
+    conn
 )
 
-selected_experience = st.sidebar.multiselect(
-    "Select Experience",
-    options=df["experience"].unique(),
-    default=df["experience"].unique()
+conn.close()
+
+# Convert salary column
+df["salary_value"] = (
+    df["salary"]
+    .str.replace(" LPA", "", regex=False)
+    .astype(float)
 )
 
-search_role = st.sidebar.text_input(
-    "Search Job Role"
-)
+# Total Skills
+all_skills = []
 
-# -----------------------------
-# Apply Filters
-# -----------------------------
-filtered_df = df[
-    (df["company"].isin(selected_company)) &
-    (df["experience"].isin(selected_experience))
-]
+for skills in df["skills"]:
+    for skill in skills.split(","):
+        all_skills.append(skill.strip())
 
-if search_role:
-    filtered_df = filtered_df[
-        filtered_df["title"].str.contains(
-            search_role,
-            case=False
-        )
-    ]
+top_skill = pd.Series(all_skills).value_counts().idxmax()
 
-# -----------------------------
-# KPI Cards
-# -----------------------------
-col1, col2, col3 = st.columns(3)
+# Metrics
+col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    st.metric("Total Jobs", len(filtered_df))
+    st.metric(
+        "💼 Total Jobs",
+        len(df)
+    )
 
 with col2:
-    st.metric("Companies", filtered_df["company"].nunique())
+    st.metric(
+        "🏢 Companies",
+        df["company"].nunique()
+    )
 
 with col3:
-    st.metric("Job Roles", filtered_df["title"].nunique())
+    st.metric(
+        "💰 Avg Salary",
+        f"{round(df['salary_value'].mean(),1)} LPA"
+    )
 
-# -----------------------------
-# Display Data
-# -----------------------------
-st.write("## Filtered Jobs")
+with col4:
+    st.metric(
+        "🔥 Top Skill",
+        top_skill
+    )
 
-st.dataframe(filtered_df)
+st.divider()
 
-# -----------------------------
-# Download CSV
-# -----------------------------
-csv = filtered_df.to_csv(index=False)
-
-st.download_button(
-    label="📥 Download CSV",
-    data=csv,
-    file_name="filtered_jobs.csv",
-    mime="text/csv"
+# Company chart
+company_df = (
+    df["company"]
+    .value_counts()
+    .reset_index()
 )
+
+company_df.columns = ["Company", "Jobs"]
+
+fig1 = px.bar(
+    company_df,
+    x="Company",
+    y="Jobs",
+    color="Jobs",
+    title="Top Hiring Companies"
+)
+
+st.plotly_chart(
+    fig1,
+    use_container_width=True
+)
+
+# Skills chart
+skill_df = (
+    pd.Series(all_skills)
+    .value_counts()
+    .reset_index()
+)
+
+skill_df.columns = ["Skill", "Demand"]
+
+fig2 = px.bar(
+    skill_df,
+    x="Skill",
+    y="Demand",
+    color="Demand",
+    title="Top Skills Demand"
+)
+
+st.plotly_chart(
+    fig2,
+    use_container_width=True
+)
+
+st.success("Dashboard loaded successfully 🚀")
+```
