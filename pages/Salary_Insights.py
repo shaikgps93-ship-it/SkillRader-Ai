@@ -1,11 +1,28 @@
+
 import streamlit as st
 import pandas as pd
 import sqlite3
 import plotly.express as px
 
-st.title("💰 Salary Insights")
+# ---------------- PAGE CONFIG ----------------
+st.set_page_config(
+    page_title="Salary Insights",
+    page_icon="💰",
+    layout="wide"
+)
 
-# Load data
+# ---------------- HOME BUTTON ----------------
+top1, top2 = st.columns([8,1])
+
+with top2:
+    if st.button("🏠 Home"):
+        st.switch_page("app.py")
+
+# ---------------- HEADER ----------------
+st.title("💰 Salary Insights")
+st.caption("Explore salary trends and distributions")
+
+# ---------------- LOAD DATA ----------------
 conn = sqlite3.connect("database.db")
 
 df = pd.read_sql(
@@ -15,14 +32,14 @@ df = pd.read_sql(
 
 conn.close()
 
-# Convert salary column to numeric
+# ---------------- CLEAN SALARY ----------------
 df["salary_value"] = (
     df["salary"]
     .str.replace(" LPA", "", regex=False)
     .astype(float)
 )
 
-# Metrics
+# ---------------- METRICS ----------------
 col1, col2, col3 = st.columns(3)
 
 with col1:
@@ -43,14 +60,39 @@ with col3:
         f"{df['salary_value'].min():.1f} LPA"
     )
 
-# Salary distribution chart
+st.divider()
+
+# ---------------- DISTRIBUTION ----------------
 st.subheader("Salary Distribution")
 
 fig = px.histogram(
     df,
     x="salary_value",
-    nbins=5,
+    nbins=10,
     title="Salary Distribution"
 )
 
-st.plotly_chart(fig, use_container_width=True)
+fig.update_layout(
+    template="plotly_dark"
+)
+
+st.plotly_chart(
+    fig,
+    use_container_width=True
+)
+
+# ---------------- TOP SALARIES ----------------
+st.subheader("Top Paying Roles")
+
+top_salary_df = df.sort_values(
+    "salary_value",
+    ascending=False
+)
+
+st.dataframe(
+    top_salary_df,
+    use_container_width=True
+)
+
+st.success("Salary Insights Loaded Successfully 🚀")
+
