@@ -1,11 +1,11 @@
 
 import streamlit as st
-import sqlite3
+import requests
 import pandas as pd
 
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(
-    page_title="Job Recommendation",
+    page_title="Live Job Recommendation",
     page_icon="🚀",
     layout="wide"
 )
@@ -18,94 +18,103 @@ with top2:
         st.switch_page("app.py")
 
 # ---------------- HEADER ----------------
-st.title("🚀 Job Recommendation Engine")
-st.caption("Find jobs matching your skills")
+st.title("🚀 Live Job Recommendation Engine")
+st.caption("Get job recommendations based on your skills")
 
-# ---------------- LOAD JOBS ----------------
-conn = sqlite3.connect("database.db")
-
-df = pd.read_sql(
-    "SELECT * FROM jobs",
-    conn
+# ---------------- USER INPUT ----------------
+skills_input = st.text_input(
+    "Enter Your Skills",
+    "Python, SQL"
 )
 
-conn.close()
+skills = [
+    skill.strip().lower()
+    for skill in skills_input.split(",")
+]
 
-# ---------------- INPUTS ----------------
-col1, col2 = st.columns(2)
+job_list = []
 
-with col1:
-    user_skills = st.text_input(
-        "Enter Your Skills",
-        "SQL, Python"
+# =====================================================
+# REMOTEOK
+# =====================================================
+try:
+
+    headers = {
+        "User-Agent": "Mozilla/5.0"
+    }
+
+    response = requests.get(
+        "https://remoteok.com/api",
+        headers=headers
     )
 
-with col2:
-    experience = st.slider(
-        "Years of Experience",
-        1,
-        10,
-        2
-    )
+    jobs = response.json()[1:]
 
-# ---------------- FIND MATCHES ----------------
-if st.button("Find Matching Jobs"):
+    for job in jobs:
 
-    user_skill_set = set(
-        skill.strip().lower()
-        for skill in user_skills.split(",")
-    )
+        role = job.get("position", "")
+        company = job.get("company", "")
+        location = job.get("location", "")
+        tags = [
+            tag.lower()
+            for tag in job.get("tags", [])
+        ]
+        url = job.get("url", "")
 
-    recommendations = []
-
-    for _, row in df.iterrows():
-
-        job_skill_set = set(
-            skill.strip().lower()
-            for skill in row["skills"].split(",")
+        # Match Score
+        matches = len(
+            set(skills).intersection(set(tags))
         )
 
-        matched_skills = user_skill_set.intersection(job_skill_set)
+        score = round(
+            (matches / max(len(tags), 1)) * 100
+        )
 
-        score = (
-            len(matched_skills)
-            / len(job_skill_set)
-        ) * 100
+        if score > 0:
 
-        recommendations.append({
-            "Company": row["company"],
-            "Role": row["title"],
-            "Match Score": round(score, 0)
-        })
+            job_list.append({
+                "Company": company,
+                "Role": role,
+                "Location": location,
+                "Match Score": score,
+                "Apply Link": url
+            })
 
-    result_df = pd.DataFrame(recommendations)
+except:
+    st.warning("RemoteOK unavailable")
 
-    result_df = result_df.sort_values(
+# =====================================================
+# DISPLAY
+# =====================================================
+df = pd.DataFrame(job_list)
+
+if len(df) > 0:
+
+    df = df.sort_values(
         "Match Score",
         ascending=False
     )
 
-    # Metrics
-    c1, c2 = st.columns(2)
-
-    with c1:
-        st.metric(
-            "Jobs Found",
-            len(result_df)
-        )
-
-    with c2:
-        st.metric(
-            "Best Match",
-            f"{result_df['Match Score'].max()}%"
-        )
-
-    st.divider()
-
-    st.dataframe(
-        result_df,
-        use_container_width=True
+    st.metric(
+        "Recommended Jobs",
+        len(df)
     )
 
-    st.success("Job Recommendations Generated 🚀")
+    st.data_editor(
+        df,
+        hide_index=True,
+        use_container_width=True,
+        column_config={
+            "Apply Link": st.column_config.LinkColumn(
+                "Apply 🚀",
+                display_text="Apply"
+            )
+        }
+    )
+
+else:
+
+    st.warning(
+        "No matching jobs found."
+    )
 
