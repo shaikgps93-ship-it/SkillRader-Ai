@@ -1,3 +1,7 @@
+from utils.navigation import home_button
+
+home_button()
+
 import streamlit as st
 
 st.title("🤖 AI Career Advisor")
