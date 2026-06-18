@@ -10,84 +10,119 @@ st.set_page_config(
 # ---------------- CUSTOM CSS ----------------
 st.markdown("""
 <style>
-
-/* Main background */
-.stApp{
-    background-color:#0B1020;
+.stApp {
+    background-color: #0E1117;
+    color: white;
 }
 
-/* Sidebar */
-[data-testid="stSidebar"]{
-    background-color:#111827;
+.main-title {
+    font-size: 55px;
+    font-weight: bold;
+    color: #00E5FF;
 }
 
-/* Metric cards */
-div[data-testid="metric-container"]{
-    background:#1E293B;
-    border:1px solid #00F5FF;
-    padding:20px;
-    border-radius:20px;
-    box-shadow:0px 0px 10px rgba(0,245,255,0.2);
+.sub-title {
+    font-size: 28px;
+    color: #A0AEC0;
 }
 
-/* Headers */
-h1{
-    color:#00F5FF;
+.feature-card {
+    background: #1A1D24;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #2D3748;
+    margin-bottom: 15px;
 }
 
-h2,h3{
-    color:white;
+.metric-box {
+    background: #1A1D24;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
 }
-
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- SIDEBAR ----------------
-st.sidebar.markdown("""
-# 🚀 SkillRadar AI
+# ---------------- HEADER ----------------
+st.markdown(
+    "<div class='main-title'>🚀 SkillRadar AI</div>",
+    unsafe_allow_html=True
+)
 
-### Workforce Intelligence Platform
+st.markdown(
+    "<div class='sub-title'>AI-Powered Career Intelligence Platform</div>",
+    unsafe_allow_html=True
+)
 
----
-""")
+st.write("")
+st.write("")
 
-# ---------------- HOME PAGE ----------------
-st.title("🚀 SkillRadar AI")
-
-st.subheader("AI-Powered Career Intelligence Platform")
-
-st.write("Welcome to SkillRadar AI.")
-
-st.markdown("""
-### Available Modules
-
-- 📊 Dashboard
-- 🔥 Skills Analysis
-- 💰 Salary Insights
-- 🏢 Company Analysis
-- 📄 Resume Analyzer
-- 🤖 AI Career Advisor
-- 📈 Salary Predictor
-- 🔍 Search Jobs
-- 🎯 Skill Gap Analyzer
-""")
-
-# ---------------- SAMPLE METRICS ----------------
+# ---------------- METRICS ----------------
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    st.metric("💼 Jobs", "8")
+    st.metric("Modules", "8")
 
 with col2:
-    st.metric("🏢 Companies", "7")
+    st.metric("AI Tools", "6")
 
 with col3:
-    st.metric("💰 Avg Salary", "9 LPA")
+    st.metric("Jobs Indexed", "100+")
 
 with col4:
-    st.metric("🔥 Top Skill", "SQL")
+    st.metric("Career Insights", "24/7")
 
 st.divider()
 
-st.success("SkillRadar AI is running successfully 🚀")
+# ---------------- FEATURES ----------------
+st.subheader("⚡ Features")
 
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown("""
+    <div class='feature-card'>
+    🔍 Search Jobs<br><br>
+    Find opportunities from your database.
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class='feature-card'>
+    💰 Salary Predictor<br><br>
+    Predict salaries using AI.
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class='feature-card'>
+    📄 Resume Analyzer<br><br>
+    Match resumes with job descriptions.
+    </div>
+    """, unsafe_allow_html=True)
+
+with col2:
+    st.markdown("""
+    <div class='feature-card'>
+    📊 Dashboard<br><br>
+    Workforce analytics and insights.
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class='feature-card'>
+    🧠 Skill Analysis<br><br>
+    Discover missing skills and recommendations.
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class='feature-card'>
+    🤖 AI Career Advisor<br><br>
+    Personalized career guidance.
+    </div>
+    """, unsafe_allow_html=True)
+
+st.divider()
+
+st.success("✅ Use the sidebar to navigate between pages.")
