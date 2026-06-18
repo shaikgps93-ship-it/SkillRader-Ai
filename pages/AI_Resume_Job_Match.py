@@ -1,19 +1,26 @@
 import streamlit as st
-
-col1, col2 = st.columns([8,1])
-
-with col2:
-    if st.button("🏠 Home"):
-        st.switch_page("app.py")
-import streamlit as st
 import sqlite3
 import pandas as pd
 from PyPDF2 import PdfReader
 import plotly.graph_objects as go
 
-st.title("🤖 AI Resume + Job Match Engine")
+st.set_page_config(
+    page_title="AI Resume Match",
+    page_icon="🤖",
+    layout="wide"
+)
 
-# Load jobs database
+# Home Button
+top1, top2 = st.columns([8,1])
+
+with top2:
+    if st.button("🏠 Home"):
+        st.switch_page("app.py")
+
+st.title("🤖 AI Resume + Job Match Engine")
+st.caption("Analyze resume skills against market demand")
+
+# Load jobs
 conn = sqlite3.connect("database.db")
 
 df = pd.read_sql(
@@ -23,7 +30,7 @@ df = pd.read_sql(
 
 conn.close()
 
-# Build market skills
+# Market skills
 all_skills = []
 
 for skills in df["skills"]:
@@ -32,7 +39,6 @@ for skills in df["skills"]:
 
 market_skills = set(all_skills)
 
-# Upload PDF
 uploaded_file = st.file_uploader(
     "Upload Resume PDF",
     type=["pdf"]
@@ -45,12 +51,12 @@ if uploaded_file:
     resume_text = ""
 
     for page in reader.pages:
+
         text = page.extract_text()
 
         if text:
             resume_text += text
 
-    # Find skills
     found_skills = []
 
     for skill in market_skills:
@@ -60,12 +66,9 @@ if uploaded_file:
 
     missing_skills = market_skills - set(found_skills)
 
-    # Score
     score = int(
         (len(found_skills) / len(market_skills)) * 100
     )
-
-    st.subheader("🎯 ATS Match Score")
 
     st.progress(score / 100)
 
@@ -74,7 +77,6 @@ if uploaded_file:
         f"{score}%"
     )
 
-    # Gauge Chart
     fig = go.Figure(go.Indicator(
         mode="gauge+number",
         value=score,
@@ -89,19 +91,16 @@ if uploaded_file:
         use_container_width=True
     )
 
-    # Skills Found
     st.subheader("✅ Skills Found")
 
     for skill in found_skills:
         st.success(skill)
 
-    # Missing Skills
     st.subheader("❌ Missing Skills")
 
-    for skill in missing_skills:
+    for skill in list(missing_skills)[:10]:
         st.warning(skill)
 
-    # Recommendations
     st.subheader("🚀 Recommendations")
 
     for skill in list(missing_skills)[:3]:
