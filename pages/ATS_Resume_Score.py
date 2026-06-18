@@ -1,11 +1,32 @@
-<<<<<<< HEAD:Pages/ATS_Resume_Score.py
+
 import streamlit as st
 from PyPDF2 import PdfReader
 
-st.title("📄 ATS Resume Score")
+# ---------------- PAGE CONFIG ----------------
+st.set_page_config(
+    page_title="ATS Resume Score",
+    page_icon="🎯",
+    layout="wide"
+)
 
-uploaded_file = st.file_uploader("Upload Resume PDF", type=["pdf"])
+# ---------------- HOME BUTTON ----------------
+top1, top2 = st.columns([8, 1])
 
+with top2:
+    if st.button("🏠 Home"):
+        st.switch_page("app.py")
+
+# ---------------- HEADER ----------------
+st.title("🎯 ATS Resume Score")
+st.caption("Compare your resume against a job description")
+
+# Upload Resume
+uploaded_file = st.file_uploader(
+    "Upload Resume PDF",
+    type=["pdf"]
+)
+
+# Job Description
 job_description = st.text_area(
     "Paste Job Description",
     height=200
@@ -18,7 +39,11 @@ if uploaded_file and job_description:
     resume_text = ""
 
     for page in reader.pages:
-        resume_text += page.extract_text()
+
+        text = page.extract_text()
+
+        if text:
+            resume_text += text
 
     resume_text = resume_text.lower()
     jd_text = job_description.lower()
@@ -29,56 +54,45 @@ if uploaded_file and job_description:
     matched = jd_keywords.intersection(resume_keywords)
     missing = jd_keywords - resume_keywords
 
-    score = int((len(matched) / len(jd_keywords)) * 100)
+    score = int(
+        (len(matched) / max(len(jd_keywords), 1)) * 100
+    )
 
-    st.subheader("ATS Score")
+    # Metrics
+    c1, c2, c3 = st.columns(3)
+
+    with c1:
+        st.metric("🎯 ATS Score", f"{score}%")
+
+    with c2:
+        st.metric("✅ Keywords Matched", len(matched))
+
+    with c3:
+        st.metric("❌ Missing Keywords", len(missing))
+
     st.progress(score / 100)
-    st.success(f"{score}/100")
 
-    st.subheader("Matched Keywords")
-    st.write(list(matched))
+    # Resume Strength
+    if score >= 80:
+        st.success("🟢 Strong Match")
 
-    st.subheader("Missing Keywords")
-=======
-import streamlit as st
-from PyPDF2 import PdfReader
+    elif score >= 60:
+        st.warning("🟡 Moderate Match")
 
-st.title("📄 ATS Resume Score")
+    else:
+        st.error("🔴 Needs Improvement")
 
-uploaded_file = st.file_uploader("Upload Resume PDF", type=["pdf"])
+    st.divider()
 
-job_description = st.text_area(
-    "Paste Job Description",
-    height=200
-)
+    st.subheader("✅ Matched Keywords")
 
-if uploaded_file and job_description:
+    for word in sorted(list(matched))[:30]:
+        st.success(word)
 
-    reader = PdfReader(uploaded_file)
+    st.subheader("❌ Missing Keywords")
 
-    resume_text = ""
+    for word in sorted(list(missing))[:30]:
+        st.warning(word)
 
-    for page in reader.pages:
-        resume_text += page.extract_text()
+    st.success("ATS Analysis Completed Successfully 🚀")
 
-    resume_text = resume_text.lower()
-    jd_text = job_description.lower()
-
-    jd_keywords = set(jd_text.split())
-    resume_keywords = set(resume_text.split())
-
-    matched = jd_keywords.intersection(resume_keywords)
-    missing = jd_keywords - resume_keywords
-
-    score = int((len(matched) / len(jd_keywords)) * 100)
-
-    st.subheader("ATS Score")
-    st.progress(score / 100)
-    st.success(f"{score}/100")
-
-    st.subheader("Matched Keywords")
-    st.write(list(matched))
-
-    st.subheader("Missing Keywords")
->>>>>>> 60e5608c2b6a81a0960c578bae595edfd36f6074:pages/ATS_Resume_Score.py
-    st.write(list(missing))
