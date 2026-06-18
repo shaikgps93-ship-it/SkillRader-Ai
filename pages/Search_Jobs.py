@@ -1,4 +1,4 @@
-```python
+
 import streamlit as st
 import sqlite3
 import pandas as pd
@@ -130,4 +130,4 @@ st.download_button(
     "filtered_jobs.csv",
     "text/csv"
 )
-```
+
