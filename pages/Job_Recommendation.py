@@ -1,26 +1,54 @@
+
 import streamlit as st
 import sqlite3
 import pandas as pd
 
-st.title("🎯 Job Recommendation Engine")
+# ---------------- PAGE CONFIG ----------------
+st.set_page_config(
+    page_title="Job Recommendation",
+    page_icon="🚀",
+    layout="wide"
+)
 
-# Load jobs
+# ---------------- HOME BUTTON ----------------
+top1, top2 = st.columns([8,1])
+
+with top2:
+    if st.button("🏠 Home"):
+        st.switch_page("app.py")
+
+# ---------------- HEADER ----------------
+st.title("🚀 Job Recommendation Engine")
+st.caption("Find jobs matching your skills")
+
+# ---------------- LOAD JOBS ----------------
 conn = sqlite3.connect("database.db")
-df = pd.read_sql("SELECT * FROM jobs", conn)
+
+df = pd.read_sql(
+    "SELECT * FROM jobs",
+    conn
+)
+
 conn.close()
 
-user_skills = st.text_input(
-    "Enter your skills",
-    "SQL, Python"
-)
+# ---------------- INPUTS ----------------
+col1, col2 = st.columns(2)
 
-experience = st.slider(
-    "Years of Experience",
-    1,
-    10,
-    2
-)
+with col1:
+    user_skills = st.text_input(
+        "Enter Your Skills",
+        "SQL, Python"
+    )
 
+with col2:
+    experience = st.slider(
+        "Years of Experience",
+        1,
+        10,
+        2
+    )
+
+# ---------------- FIND MATCHES ----------------
 if st.button("Find Matching Jobs"):
 
     user_skill_set = set(
@@ -57,4 +85,27 @@ if st.button("Find Matching Jobs"):
         ascending=False
     )
 
-    st.dataframe(result_df)
+    # Metrics
+    c1, c2 = st.columns(2)
+
+    with c1:
+        st.metric(
+            "Jobs Found",
+            len(result_df)
+        )
+
+    with c2:
+        st.metric(
+            "Best Match",
+            f"{result_df['Match Score'].max()}%"
+        )
+
+    st.divider()
+
+    st.dataframe(
+        result_df,
+        use_container_width=True
+    )
+
+    st.success("Job Recommendations Generated 🚀")
+
