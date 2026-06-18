@@ -1,4 +1,4 @@
-```python
+
 import streamlit as st
 
 st.set_page_config(
@@ -59,4 +59,4 @@ st.progress(70, text="Power BI")
 st.progress(60, text="Machine Learning")
 
 st.success("Dashboard Loaded Successfully 🚀")
-```
+
