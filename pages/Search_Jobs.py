@@ -1,4 +1,4 @@
-```python
+
 import streamlit as st
 import requests
 import pandas as pd
@@ -174,4 +174,4 @@ if len(df) > 0:
 else:
 
     st.warning("No jobs found.")
-```
+
