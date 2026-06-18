@@ -1,6 +1,10 @@
-from utils.navigation import home_button
+import streamlit as st
 
-home_button()
+col1, col2 = st.columns([8,1])
+
+with col2:
+    if st.button("🏠 Home"):
+        st.switch_page("app.py")
 import streamlit as st
 import sqlite3
 import pandas as pd
