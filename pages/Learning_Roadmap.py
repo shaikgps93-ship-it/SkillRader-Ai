@@ -17,7 +17,7 @@ with top2:
 
 # ---------------- HEADER ----------------
 st.title("📚 AI Learning Roadmap")
-st.caption("Visual roadmap for your career")
+st.caption("Personalized roadmap with free learning resources")
 
 career = st.selectbox(
     "Choose Career Path",
@@ -28,73 +28,119 @@ career = st.selectbox(
     ]
 )
 
-# ---------------- ROADMAPS ----------------
+# ==================================================
+# DATA ANALYST
+# ==================================================
 if career == "Data Analyst":
 
     roadmap = [
-        ("Month 1", "Excel"),
-        ("Month 2", "SQL"),
-        ("Month 3", "Power BI"),
-        ("Month 4", "Python"),
-        ("Month 5", "Projects"),
-        ("Month 6", "Interview Preparation")
+        ("Month 1", "Excel",
+         "Excel skills are essential for reporting and analysis.",
+         "https://youtube.com/playlist?list=PLUaB-1hjhk8FE_XZ87vPPSfHqb6OcM0cF"),
+
+        ("Month 2", "SQL",
+         "Learn SQL joins, group by and window functions.",
+         "https://www.w3schools.com/sql/"),
+
+        ("Month 3", "Power BI",
+         "Build dashboards and reports.",
+         "https://learn.microsoft.com/en-us/training/powerplatform/power-bi/"),
+
+        ("Month 4", "Python",
+         "Learn Pandas and NumPy.",
+         "https://www.freecodecamp.org/news/learn-python-free-python-courses-for-beginners/"),
+
+        ("Month 5", "Projects",
+         "Create portfolio projects and upload to GitHub.",
+         "https://www.kaggle.com/"),
+
+        ("Month 6", "Interview Preparation",
+         "Practice SQL and Python questions.",
+         "https://www.hackerrank.com/domains/sql")
     ]
 
+
+# ==================================================
+# DATA ENGINEER
+# ==================================================
 elif career == "Data Engineer":
 
     roadmap = [
-        ("Month 1", "Python"),
-        ("Month 2", "SQL"),
-        ("Month 3", "Pandas"),
-        ("Month 4", "AWS"),
-        ("Month 5", "ETL Concepts"),
-        ("Month 6", "Spark")
+        ("Month 1", "Python",
+         "Learn core Python concepts.",
+         "https://www.freecodecamp.org/news/learn-python-free-python-courses-for-beginners/"),
+
+        ("Month 2", "SQL",
+         "Master advanced SQL.",
+         "https://www.w3schools.com/sql/"),
+
+        ("Month 3", "Pandas",
+         "Learn data manipulation.",
+         "https://pandas.pydata.org/docs/getting_started/index.html"),
+
+        ("Month 4", "AWS",
+         "Learn cloud basics.",
+         "https://aws.amazon.com/training/digital/"),
+
+        ("Month 5", "ETL Concepts",
+         "Understand pipelines and workflows.",
+         "https://airflow.apache.org/docs/"),
+
+        ("Month 6", "Spark",
+         "Learn big data processing.",
+         "https://spark.apache.org/docs/latest/")
     ]
 
+
+# ==================================================
+# DATA SCIENTIST
+# ==================================================
 else:
 
     roadmap = [
-        ("Month 1", "Python"),
-        ("Month 2", "Pandas + NumPy"),
-        ("Month 3", "Statistics"),
-        ("Month 4", "Machine Learning"),
-        ("Month 5", "Deep Learning"),
-        ("Month 6", "Projects")
+        ("Month 1", "Python",
+         "Build a strong foundation.",
+         "https://www.freecodecamp.org/news/learn-python-free-python-courses-for-beginners/"),
+
+        ("Month 2", "Pandas + NumPy",
+         "Data analysis fundamentals.",
+         "https://pandas.pydata.org/docs/getting_started/index.html"),
+
+        ("Month 3", "Statistics",
+         "Learn probability and statistics.",
+         "https://www.khanacademy.org/math/statistics-probability"),
+
+        ("Month 4", "Machine Learning",
+         "Study supervised and unsupervised learning.",
+         "https://developers.google.com/machine-learning/crash-course"),
+
+        ("Month 5", "Deep Learning",
+         "Learn neural networks.",
+         "https://www.deeplearning.ai/"),
+
+        ("Month 6", "Projects",
+         "Build Kaggle projects.",
+         "https://www.kaggle.com/")
     ]
 
+# ==================================================
+# DISPLAY ROADMAP
+# ==================================================
 st.divider()
 
-# ---------------- VISUAL TIMELINE ----------------
-cols = st.columns(len(roadmap))
+for month, topic, suggestion, resource in roadmap:
 
-for i, (month, topic) in enumerate(roadmap):
+    with st.container(border=True):
 
-    with cols[i]:
+        st.subheader(f"✅ {month}")
+        st.write(f"### {topic}")
 
-        st.success("✅")
+        st.info(f"💡 Suggestion: {suggestion}")
 
-        st.markdown(
-            f"""
-            ### {month}
-
-            **{topic}**
-            """
+        st.link_button(
+            "📖 Free Resource",
+            resource
         )
-
-        if i < len(roadmap)-1:
-            st.markdown("⬇️")
-
-st.divider()
-
-# Progress
-st.subheader("Career Progress")
-
-for month, topic in roadmap:
-
-    st.progress(
-        (roadmap.index((month, topic)) + 1) / len(roadmap),
-        text=f"{month} → {topic}"
-    )
 
 st.success("Roadmap Generated Successfully 🚀")
 
