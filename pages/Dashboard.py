@@ -1,4 +1,3 @@
-```python
 import streamlit as st
 import sqlite3
 import pandas as pd
@@ -106,4 +105,4 @@ st.plotly_chart(
 )
 
 st.success("Dashboard loaded successfully 🚀")
-```
+
