@@ -1,4 +1,11 @@
 import streamlit as st
+
+from utils.styles import apply_styles
+from utils.navigation import home_button
+
+apply_styles()
+home_button()
+import streamlit as st
 import sqlite3
 import pandas as pd
 import plotly.express as px
