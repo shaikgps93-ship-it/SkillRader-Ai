@@ -90,4 +90,4 @@ with col4:
 st.divider()
 
 st.success("SkillRadar AI is running successfully 🚀")
-```
+
