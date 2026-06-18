@@ -1,4 +1,4 @@
-```python
+
 import streamlit as st
 
 # Page Config
@@ -84,4 +84,4 @@ st.progress(60, text="Machine Learning")
 st.divider()
 
 st.success("Dashboard Loaded Successfully 🚀")
-```
+
