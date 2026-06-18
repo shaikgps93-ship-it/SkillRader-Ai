@@ -1,16 +1,18 @@
 
 import streamlit as st
-import sqlite3
 import pandas as pd
+import sqlite3
+from sklearn.linear_model import LinearRegression
+import plotly.graph_objects as go
 
-# Page Config
+# ---------------- PAGE CONFIG ----------------
 st.set_page_config(
-    page_title="Search Jobs",
-    page_icon="🔍",
+    page_title="Salary Predictor",
+    page_icon="💰",
     layout="wide"
 )
 
-# Styling
+# ---------------- CSS ----------------
 st.markdown("""
 <style>
 
@@ -35,18 +37,18 @@ div[data-testid="metric-container"]{
 </style>
 """, unsafe_allow_html=True)
 
-# Home Button
+# ---------------- HOME BUTTON ----------------
 top1, top2 = st.columns([8,1])
 
 with top2:
     if st.button("🏠 Home"):
         st.switch_page("app.py")
 
-# Header
-st.title("🔍 Search Jobs")
-st.caption("Find opportunities based on company and experience")
+# ---------------- HEADER ----------------
+st.title("💰 AI Salary Predictor")
+st.caption("Estimate your market salary based on experience")
 
-# Load Database
+# ---------------- LOAD DATA ----------------
 conn = sqlite3.connect("database.db")
 
 df = pd.read_sql(
@@ -56,78 +58,80 @@ df = pd.read_sql(
 
 conn.close()
 
-# Search Box
-search = st.text_input(
-    "Search Job Role",
-    placeholder="Data Analyst, Data Engineer..."
+# ---------------- CLEAN DATA ----------------
+df["salary_value"] = (
+    df["salary"]
+    .str.replace(" LPA", "", regex=False)
+    .astype(float)
 )
 
-# Filters
+df["experience_value"] = (
+    df["experience"]
+    .str.replace(" Years", "", regex=False)
+    .str.replace(" Year", "", regex=False)
+    .astype(int)
+)
+
+# ---------------- MODEL ----------------
+X = df[["experience_value"]]
+y = df["salary_value"]
+
+model = LinearRegression()
+model.fit(X, y)
+
+# ---------------- USER INPUT ----------------
 col1, col2 = st.columns(2)
 
 with col1:
-    company_filter = st.multiselect(
-        "🏢 Company",
-        df["company"].unique()
+    experience = st.slider(
+        "📈 Years of Experience",
+        1,
+        10,
+        2
     )
 
 with col2:
-    experience_filter = st.multiselect(
-        "📈 Experience",
-        df["experience"].unique()
+    skills = st.multiselect(
+        "🛠 Skills",
+        ["SQL", "Python", "Power BI", "AWS", "Excel"]
     )
 
-# Apply Filters
-filtered_df = df.copy()
-
-if search:
-    filtered_df = filtered_df[
-        filtered_df["title"].str.contains(
-            search,
-            case=False,
-            na=False
-        )
-    ]
-
-if company_filter:
-    filtered_df = filtered_df[
-        filtered_df["company"].isin(company_filter)
-    ]
-
-if experience_filter:
-    filtered_df = filtered_df[
-        filtered_df["experience"].isin(experience_filter)
-    ]
-
-# Metrics
-m1, m2, m3 = st.columns(3)
-
-with m1:
-    st.metric("Jobs Found", len(filtered_df))
-
-with m2:
-    st.metric("Companies", filtered_df["company"].nunique())
-
-with m3:
-    st.metric("Roles", filtered_df["title"].nunique())
+# ---------------- PREDICTION ----------------
+prediction = model.predict([[experience]])
 
 st.divider()
 
-# Results
-st.subheader("Available Jobs")
+st.metric(
+    "Predicted Salary",
+    f"₹ {prediction[0]:.2f} LPA"
+)
 
-st.dataframe(
-    filtered_df,
+# ---------------- GAUGE ----------------
+fig = go.Figure(go.Indicator(
+    mode="gauge+number",
+    value=prediction[0],
+    title={"text": "Salary Prediction"},
+    gauge={
+        "axis": {"range": [0, 20]}
+    }
+))
+
+st.plotly_chart(
+    fig,
     use_container_width=True
 )
 
-# Download
-csv = filtered_df.to_csv(index=False)
+# ---------------- RECOMMENDATIONS ----------------
+st.subheader("🚀 Recommendations")
 
-st.download_button(
-    "📥 Download Results",
-    csv,
-    "filtered_jobs.csv",
-    "text/csv"
-)
+if "SQL" in skills and "Python" not in skills:
+    st.info("Learn Python to increase salary potential.")
+
+if "Python" in skills and "AWS" not in skills:
+    st.info("Learn AWS for Data Engineering roles.")
+
+if "Excel" in skills and "Power BI" not in skills:
+    st.info("Learn Power BI for BI Analyst roles.")
+
+st.success("Salary Prediction Complete 🚀")
 
