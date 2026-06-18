@@ -1,3 +1,4 @@
+
 import streamlit as st
 
 # ---------------- PAGE CONFIG ----------------
@@ -8,24 +9,30 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# ---------------- HIDE STREAMLIT UI ----------------
+# ---------------- CUSTOM CSS ----------------
 st.markdown("""
 <style>
 
-/* Hide sidebar */
+/* Hide Streamlit UI */
 [data-testid="stSidebar"] {
     display:none;
 }
 
-/* Hide sidebar toggle */
 [data-testid="collapsedControl"] {
     display:none;
 }
 
-/* Hide Streamlit menu */
-#MainMenu {visibility:hidden;}
-footer {visibility:hidden;}
-header {visibility:hidden;}
+#MainMenu {
+    visibility:hidden;
+}
+
+footer {
+    visibility:hidden;
+}
+
+header {
+    visibility:hidden;
+}
 
 /* Background */
 .stApp{
@@ -33,7 +40,7 @@ header {visibility:hidden;}
     color:white;
 }
 
-/* Hero title */
+/* Hero */
 .hero-title{
     font-size:65px;
     font-weight:bold;
@@ -45,31 +52,10 @@ header {visibility:hidden;}
     color:#94A3B8;
 }
 
-/* Feature cards */
-.card{
-    background:#161B22;
-    padding:25px;
-    border-radius:20px;
-    border:1px solid #2A2F3A;
-    transition:0.3s;
-}
-
-.card:hover{
-    border:1px solid #7C3AED;
-}
-
-.metric-box{
-    background:#161B22;
-    padding:20px;
-    border-radius:18px;
-    text-align:center;
-}
-
 </style>
 """, unsafe_allow_html=True)
 
 # ---------------- HERO ----------------
-
 st.markdown("""
 <div class='hero-title'>
 AI-Powered Career <br>
@@ -82,74 +68,96 @@ Analyze • Learn • Grow • Get Hired
 """, unsafe_allow_html=True)
 
 st.write("")
-st.write("")
 
 # ---------------- METRICS ----------------
+m1, m2, m3, m4 = st.columns(4)
 
-col1, col2, col3, col4 = st.columns(4)
+with m1:
+    st.metric("Jobs Available", "12,540")
 
-with col1:
-    st.metric("Jobs Available", "12,540", "+8.2%")
+with m2:
+    st.metric("Skills Covered", "48+")
 
-with col2:
-    st.metric("Skills Covered", "48+", "+5")
+with m3:
+    st.metric("Resumes Analyzed", "1,250")
 
-with col3:
-    st.metric("Resumes Analyzed", "1,250", "+15%")
-
-with col4:
-    st.metric("Avg Salary", "₹8.5 LPA", "+7.4%")
+with m4:
+    st.metric("Avg Salary", "₹8.5 LPA")
 
 st.divider()
 
 # ---------------- FEATURES ----------------
-
 st.subheader("🚀 Explore Features")
 
 col1, col2, col3 = st.columns(3)
 
+# ---------------- COLUMN 1 ----------------
 with col1:
-    if st.button("🔍 Search Jobs", use_container_width=True):
+
+    if st.button("🔍 Live Job Search", use_container_width=True):
         st.switch_page("pages/Search_Jobs.py")
 
     if st.button("📄 Resume Analyzer", use_container_width=True):
-        st.switch_page("pages/_Resume_Analyzer.py")
+        st.switch_page("pages/Resume_Analyzer.py")
 
     if st.button("🎯 ATS Resume Score", use_container_width=True):
         st.switch_page("pages/ATS_Resume_Score.py")
 
+    if st.button("✅ Resume Match Score", use_container_width=True):
+        st.switch_page("pages/Resume_Match_Score.py")
+
+    if st.button("🤖 AI Resume Match", use_container_width=True):
+        st.switch_page("pages/AI_Resume_Job_Match.py")
+
+
+# ---------------- COLUMN 2 ----------------
 with col2:
+
     if st.button("💰 Salary Predictor", use_container_width=True):
         st.switch_page("pages/Salary_Predictor.py")
+
+    if st.button("💹 Salary Insights", use_container_width=True):
+        st.switch_page("pages/Salary_Insights.py")
 
     if st.button("📊 Dashboard", use_container_width=True):
         st.switch_page("pages/Dashboard.py")
 
-    if st.button("🧠 Skill Gap Analyzer", use_container_width=True):
-        st.switch_page("pages/_Skill_Gap_Analyzer.py")
+    if st.button("⚡ Skill Gap Analyzer", use_container_width=True):
+        st.switch_page("pages/Skill_Gap_Analyzer.py")
 
+    if st.button("📈 Skills Analysis", use_container_width=True):
+        st.switch_page("pages/Skills_Analysis.py")
+
+
+# ---------------- COLUMN 3 ----------------
 with col3:
+
     if st.button("🤖 AI Career Advisor", use_container_width=True):
-        st.switch_page("pages/_AI_Career_Advisor.py")
+        st.switch_page("pages/AI_Career_Advisor.py")
+
+    if st.button("🤖 AI Chatbot", use_container_width=True):
+        st.switch_page("pages/AI_Chatbot.py")
 
     if st.button("📚 Learning Roadmap", use_container_width=True):
         st.switch_page("pages/Learning_Roadmap.py")
 
     if st.button("🏢 Company Analysis", use_container_width=True):
-        st.switch_page("pages/_Company_Analysis.py")
+        st.switch_page("pages/Company_Analysis.py")
+
+    if st.button("🚀 Job Recommendation", use_container_width=True):
+        st.switch_page("pages/Job_Recommendation.py")
 
 st.divider()
 
 # ---------------- SKILLS ----------------
-
-st.subheader("Your Skills")
+st.subheader("Top Skills")
 
 st.progress(90, text="Python")
-st.progress(75, text="SQL")
-st.progress(65, text="Power BI")
-st.progress(55, text="Machine Learning")
+st.progress(80, text="SQL")
+st.progress(70, text="Power BI")
+st.progress(60, text="Machine Learning")
 
 # ---------------- FOOTER ----------------
-
 st.write("")
 st.caption("🚀 SkillRadar AI | Career Intelligence Platform")
+
