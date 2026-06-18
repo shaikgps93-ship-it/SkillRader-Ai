@@ -1,0 +1,9 @@
+company,title,experience,salary,skills
+Infosys,Data Analyst,2 Years,6 LPA,"SQL,Excel,Power BI"
+Infosys,BI Analyst,3 Years,8 LPA,"SQL,Python,Tableau"
+TCS,Data Engineer,2 Years,10 LPA,"Python,SQL,AWS"
+Wipro,Data Analyst,1 Year,5 LPA,"Excel,SQL,Power BI"
+Accenture,Machine Learning Engineer,4 Years,15 LPA,"Python,TensorFlow,SQL"
+Capgemini,Data Scientist,3 Years,12 LPA,"Python,Pandas,SQL"
+Deloitte,Power BI Developer,2 Years,9 LPA,"Power BI,DAX,SQL"
+Cognizant,Business Analyst,1 Year,7 LPA,"Excel,SQL,Power BI"
