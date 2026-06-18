@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .main {
     background-color: #0F172A;
 }
@@ -19,4 +20,27 @@
     color: white;
     font-size: 28px;
     font-weight: bold;
+=======
+.main {
+    background-color: #0F172A;
+}
+
+.card {
+    background: #1E293B;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #334155;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+}
+
+.metric-title {
+    color: #94A3B8;
+    font-size: 14px;
+}
+
+.metric-value {
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+>>>>>>> 60e5608c2b6a81a0960c578bae595edfd36f6074
 }
