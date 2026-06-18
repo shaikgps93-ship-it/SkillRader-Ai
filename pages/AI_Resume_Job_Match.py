@@ -1,3 +1,6 @@
+from utils.navigation import home_button
+
+home_button()
 import streamlit as st
 import sqlite3
 import pandas as pd
