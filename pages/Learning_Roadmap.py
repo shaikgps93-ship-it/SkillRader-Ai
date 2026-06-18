@@ -1,4 +1,3 @@
-```python
 import streamlit as st
 
 st.title("🛣️ AI Learning Roadmap")
@@ -70,4 +69,4 @@ if st.button("Generate Roadmap"):
 
     for month, topic in roadmap:
         st.success(f"{month} → {topic}")
-```
+
