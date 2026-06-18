@@ -1,0 +1,34 @@
+```python
+import streamlit as st
+
+def apply_styles():
+
+    st.markdown("""
+    <style>
+
+    .stApp{
+        background: linear-gradient(135deg,#0B1120,#111827);
+    }
+
+    div[data-testid="metric-container"]{
+        background:#161B22;
+        border:1px solid #7C3AED;
+        border-radius:18px;
+        padding:15px;
+    }
+
+    .stButton>button{
+        background:#7C3AED;
+        color:white;
+        border:none;
+        border-radius:12px;
+        height:50px;
+    }
+
+    .stButton>button:hover{
+        background:#9333EA;
+    }
+
+    </style>
+    """, unsafe_allow_html=True)
+```
