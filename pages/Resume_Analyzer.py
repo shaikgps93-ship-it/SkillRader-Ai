@@ -1,106 +1,84 @@
 
-import streamlit as st
-import requests
-from PyPDF2 import PdfReader
-
-st.set_page_config(
-    page_title="Live Resume Analyzer",
-    page_icon="📄",
-    layout="wide"
+score = int(
+    (len(found_skills) / max(len(market_skills), 1)) * 100
 )
 
-# Home Button
-if st.button("🏠 Home"):
-    st.switch_page("app.py")
+# ---------------- METRICS ----------------
+c1, c2, c3 = st.columns(3)
 
-st.title("📄 Live Resume Analyzer")
-st.caption("Match your resume against live job market skills")
+with c1:
+    st.metric("🎯 ATS Score", f"{score}%")
 
-uploaded_file = st.file_uploader(
-    "Upload Resume PDF",
-    type=["pdf"]
-)
+with c2:
+    st.metric("✅ Skills Found", len(found_skills))
 
-if uploaded_file:
+with c3:
+    st.metric("❌ Missing Skills", len(missing_skills))
 
-    # Extract Resume Text
-    reader = PdfReader(uploaded_file)
+st.progress(score / 100)
 
-    resume_text = ""
+# Resume Strength
+if score >= 80:
+    st.success("🟢 Strong Resume")
 
-    for page in reader.pages:
+elif score >= 60:
+    st.warning("🟡 Good Resume")
 
-        text = page.extract_text()
+else:
+    st.error("🔴 Resume Needs Improvement")
 
-        if text:
-            resume_text += text
+st.divider()
 
-    resume_text = resume_text.lower()
+# ---------------- CAREER MATCH ----------------
+st.subheader("💼 Career Match")
 
-    market_skills = set()
+st.progress(0.92, text="Data Analyst")
+st.progress(0.84, text="BI Analyst")
+st.progress(0.71, text="Data Engineer")
 
-    # ---------------- RemoteOK ----------------
-    try:
+st.divider()
 
-        response = requests.get(
-            "https://remoteok.com/api",
-            headers={"User-Agent": "Mozilla/5.0"}
-        )
+# ---------------- FOUND SKILLS ----------------
+st.subheader("✅ Skills Detected")
 
-        jobs = response.json()[1:]
+cols = st.columns(3)
 
-        for job in jobs:
+for i, skill in enumerate(sorted(found_skills)):
 
-            tags = job.get("tags", [])
-
-            for tag in tags:
-                market_skills.add(tag.lower())
-
-    except:
-        pass
-
-    # ---------------- Skill Matching ----------------
-    found_skills = []
-
-    for skill in market_skills:
-
-        if skill in resume_text:
-            found_skills.append(skill)
-
-    missing_skills = market_skills - set(found_skills)
-
-    score = int(
-        (len(found_skills) / max(len(market_skills), 1)) * 100
-    )
-
-    # Metrics
-    c1, c2, c3 = st.columns(3)
-
-    with c1:
-        st.metric("Resume Score", f"{score}%")
-
-    with c2:
-        st.metric("Skills Found", len(found_skills))
-
-    with c3:
-        st.metric("Missing Skills", len(missing_skills))
-
-    st.progress(score / 100)
-
-    st.divider()
-
-    st.subheader("✅ Skills Found")
-
-    for skill in sorted(found_skills):
+    with cols[i % 3]:
         st.success(skill)
 
-    st.subheader("❌ Top Missing Skills")
+# ---------------- MISSING SKILLS ----------------
+st.divider()
 
-    for skill in sorted(list(missing_skills))[:15]:
-        st.warning(skill)
+st.subheader("🚀 Skills To Learn")
 
-    st.subheader("🚀 Suggested Next Skills")
+cols = st.columns(3)
 
-    for skill in sorted(list(missing_skills))[:5]:
-        st.info(f"Learn {skill}")
+for i, skill in enumerate(sorted(list(missing_skills))[:15]):
+
+    with cols[i % 3]:
+        st.warning(f"Learn {skill}")
+
+# ---------------- RESOURCES ----------------
+st.divider()
+
+st.subheader("📚 Free Resources")
+
+st.link_button(
+    "Learn Python",
+    "https://www.freecodecamp.org/news/learn-python-free-python-courses-for-beginners/"
+)
+
+st.link_button(
+    "Learn SQL",
+    "https://www.w3schools.com/sql/"
+)
+
+st.link_button(
+    "Practice SQL",
+    "https://www.hackerrank.com/domains/sql"
+)
+
+st.success("Resume Analysis Completed 🚀")
 
