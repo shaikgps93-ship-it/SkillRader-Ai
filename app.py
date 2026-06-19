@@ -348,15 +348,22 @@ search_skill = st.text_input(
     "🔍 Search Skill"
 )
 
+st.subheader("🔥 Popular Skills")
+
 for skill, count in top_skills:
 
     if search_skill.lower() in skill.lower():
 
-        percentage = min(count * 5, 100)
+        col1, col2 = st.columns([4,1])
 
-        st.progress(
-            percentage / 100,
-            text=f"{skill} ({count} jobs)"
+        with col1:
+            st.success(f"🚀 {skill.title()}")
+
+        with col2:
+            st.metric(
+                "Popularity",
+                count
+            )
         )
 
 # ==========================================================
