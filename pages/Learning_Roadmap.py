@@ -77,3 +77,69 @@ if selected_role == "Data Analyst":
 - Netflix Data Analysis
 - Employee Attrition Analysis
 """)
+# ---------------- DATA SCIENTIST ----------------
+
+if selected_role == "Data Scientist":
+
+    st.subheader("🤖 Data Scientist Roadmap")
+
+    roadmap = [
+        "Python",
+        "NumPy",
+        "Pandas",
+        "Statistics",
+        "Data Visualization",
+        "Machine Learning",
+        "Deep Learning",
+        "Projects",
+        "Portfolio",
+        "Interview Preparation"
+    ]
+
+    for i, step in enumerate(roadmap, start=1):
+        st.success(f"{i}. {step}")
+
+    st.divider()
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        st.subheader("🆓 Free Resources")
+
+        st.markdown("""
+- Kaggle Learn
+- freeCodeCamp Python
+- StatQuest YouTube
+- Andrew Ng Machine Learning
+- Microsoft Learn
+""")
+
+    with col2:
+
+        st.subheader("🛠 Beginner Projects")
+
+        st.markdown("""
+- Titanic Survival Prediction
+- House Price Prediction
+- Customer Churn Prediction
+- Iris Classification
+""")
+
+    st.divider()
+
+    st.subheader("💰 Average Salary")
+
+    st.info("₹10–20 LPA")
+
+    st.subheader("📈 Career Progression")
+
+    st.markdown("""
+Data Scientist  
+⬇  
+Senior Data Scientist  
+⬇  
+Lead Data Scientist  
+⬇  
+AI Engineer
+""")
