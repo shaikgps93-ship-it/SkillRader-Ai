@@ -364,7 +364,6 @@ for skill, count in top_skills:
                 "Popularity",
                 count
             )
-        )
 
 # ==========================================================
 # SKILL TABLE
