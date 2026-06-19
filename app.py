@@ -409,14 +409,31 @@ if search_skill:
 # ==========================================================
 # SKILL TABLE
 # ==========================================================
-st.subheader("📊 Skill Demand Table")
+st.subheader("📊 Skill Demand Leaderboard")
 
-import pandas as pd
+table_data = []
 
-skill_df = pd.DataFrame(
-    top_skills,
-    columns=["Skill", "Jobs Found"]
-)
+for rank, (skill, count) in enumerate(top_skills, start=1):
+
+    if count >= 50:
+        trend = "🔥 Hot"
+
+    elif count >= 25:
+        trend = "📈 Rising"
+
+    else:
+        trend = "🌱 Growing"
+
+    table_data.append(
+        {
+            "🏆 Rank": rank,
+            "🚀 Skill": skill.title(),
+            "💼 Jobs": count,
+            "📊 Trend": trend
+        }
+    )
+
+skill_df = pd.DataFrame(table_data)
 
 st.dataframe(
     skill_df,
