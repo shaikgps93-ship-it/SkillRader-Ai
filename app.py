@@ -145,6 +145,7 @@ with col2:
     ...
 with col3:
     ...
+#------------------Job Intelligence----------    
 st.subheader("💼 Job Intelligence")
 
 j1, j2 = st.columns(2)
@@ -162,7 +163,7 @@ with j2:
     if st.button("🏢 Company Analysis", use_container_width=True):
         st.switch_page("pages/Company_Analysis.py")
 
-
+#------------------Resume Intelligence----------    
 st.subheader("📄 Resume Intelligence")
 
 r1, r2 = st.columns(2)
