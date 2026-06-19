@@ -55,19 +55,66 @@ header {
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- HERO ----------------
+```python
+# ==========================================================
+# HERO SECTION
+# ==========================================================
 st.markdown("""
-<div class='hero-title'>
-AI-Powered Career <br>
-<span style='color:#7C3AED'>Intelligence Platform</span>
-</div>
+<div style='text-align:center;padding-top:20px;'>
 
-<div class='hero-sub'>
+<h1 style='font-size:70px;color:white;margin-bottom:0px;'>
+🚀 SkillRadar AI
+</h1>
+
+<h3 style='color:#7C3AED;margin-top:0px;'>
+Your AI-Powered Career Intelligence Platform
+</h3>
+
+<p style='font-size:20px;color:#94A3B8;'>
 Analyze • Learn • Grow • Get Hired
+</p>
+
 </div>
 """, unsafe_allow_html=True)
 
 st.write("")
+st.write("")
+
+# ==========================================================
+# LIVE METRICS
+# ==========================================================
+m1, m2, m3, m4 = st.columns(4)
+
+with m1:
+    st.metric(
+        "💼 Live Jobs",
+        "12,540",
+        "+8%"
+    )
+
+with m2:
+    st.metric(
+        "📄 Resumes Analyzed",
+        "1,250+",
+        "+15%"
+    )
+
+with m3:
+    st.metric(
+        "📈 Skills Tracked",
+        "500+",
+        "+12%"
+    )
+
+with m4:
+    st.metric(
+        "💰 Avg Salary",
+        "₹8.5 LPA",
+        "+7%"
+    )
+
+st.divider()
+```
 
 # ---------------- METRICS ----------------
 m1, m2, m3, m4 = st.columns(4)
