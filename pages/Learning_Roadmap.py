@@ -143,3 +143,122 @@ Lead Data Scientist
 ⬇  
 AI Engineer
 """)
+    # ---------------- DATA ENGINEER ----------------
+
+if selected_role == "Data Engineer":
+
+    st.subheader("🏗 Data Engineer Roadmap")
+
+    roadmap = [
+        "SQL",
+        "Python",
+        "Data Warehousing",
+        "ETL Concepts",
+        "Apache Spark",
+        "Airflow",
+        "AWS",
+        "Snowflake",
+        "Projects",
+        "Interview Preparation"
+    ]
+
+    for i, step in enumerate(roadmap, start=1):
+        st.success(f"{i}. {step}")
+
+    st.divider()
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        st.subheader("🆓 Free Resources")
+
+        st.markdown("""
+- freeCodeCamp SQL
+- AWS Skill Builder
+- Databricks Academy
+- Microsoft Learn
+- YouTube
+""")
+
+    with col2:
+
+        st.subheader("🛠 Projects")
+
+        st.markdown("""
+- ETL Pipeline
+- Data Warehouse Project
+- Spark Analytics
+- AWS S3 Pipeline
+""")
+
+    st.info("💰 Average Salary: ₹12–25 LPA")
+
+# ---------------- AI ENGINEER ----------------
+
+if selected_role == "AI Engineer":
+
+    st.subheader("🤖 AI Engineer Roadmap")
+
+    roadmap = [
+        "Python",
+        "NumPy",
+        "Pandas",
+        "Machine Learning",
+        "Deep Learning",
+        "Transformers",
+        "LangChain",
+        "RAG",
+        "LLM Projects",
+        "Deployment"
+    ]
+
+    for i, step in enumerate(roadmap, start=1):
+        st.success(f"{i}. {step}")
+
+    st.info("💰 Average Salary: ₹15–35 LPA")
+
+# ---------------- QA AUTOMATION ----------------
+
+if selected_role == "QA Automation Engineer":
+
+    st.subheader("🧪 QA Automation Engineer")
+
+    roadmap = [
+        "Manual Testing",
+        "SQL",
+        "Python",
+        "Selenium",
+        "API Testing",
+        "Postman",
+        "JMeter",
+        "CI/CD"
+    ]
+
+    for i, step in enumerate(roadmap, start=1):
+        st.success(f"{i}. {step}")
+
+    st.info("💰 Average Salary: ₹8–18 LPA")
+
+
+# ---------------- DEVOPS ----------------
+
+if selected_role == "DevOps Engineer":
+
+    st.subheader("☁ DevOps Engineer")
+
+    roadmap = [
+        "Linux",
+        "Git",
+        "Docker",
+        "Kubernetes",
+        "Jenkins",
+        "AWS",
+        "Terraform",
+        "Monitoring"
+    ]
+
+    for i, step in enumerate(roadmap, start=1):
+        st.success(f"{i}. {step}")
+
+    st.info("💰 Average Salary: ₹12–30 LPA")
