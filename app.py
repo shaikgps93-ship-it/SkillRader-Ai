@@ -117,24 +117,6 @@ with m4:
 st.divider()
 
 
-# ---------------- METRICS ----------------
-m1, m2, m3, m4 = st.columns(4)
-
-with m1:
-    st.metric("Jobs Available", "12,540")
-
-with m2:
-    st.metric("Skills Covered", "48+")
-
-with m3:
-    st.metric("Resumes Analyzed", "1,250")
-
-with m4:
-    st.metric("Avg Salary", "₹8.5 LPA")
-
-st.divider()
-
-
     
 #------------------Job Intelligence----------    
 st.subheader("💼 Job Intelligence")
