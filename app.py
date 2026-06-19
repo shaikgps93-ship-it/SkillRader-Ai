@@ -342,28 +342,42 @@ except:
 
 # Top 10 skills
 top_skills = skill_counter.most_common(10)
-
 # ==========================================================
 # SEARCH LIVE SKILLS
 # ==========================================================
 search_skill = st.text_input(
     "🔍 Search Any Skill"
-).lower()
+).strip().lower()
 
 if search_skill:
 
-    found = False
+    matches = []
 
     for skill, count in skill_counter.items():
 
-        if search_skill in skill.lower():
+        skill_name = skill.lower()
 
-            found = True
+        if (
+            search_skill in skill_name
+            or skill_name in search_skill
+        ):
+
+            matches.append((skill, count))
+
+    if matches:
+
+        matches = sorted(
+            matches,
+            key=lambda x: x[1],
+            reverse=True
+        )
+
+        for skill, count in matches:
 
             st.success(f"🔥 {skill.title()}")
 
             st.metric(
-                "Popularity",
+                "Popularity Score",
                 f"{count} Jobs"
             )
 
@@ -376,12 +390,22 @@ if search_skill:
             else:
                 st.warning("🌱 Growing Skill")
 
-    if not found:
+    else:
 
-        st.error(
-            "Skill not found in live market data."
+        st.warning(
+            f"No exact match found for '{search_skill}'."
         )
 
+        st.write("Showing closest popular skills:")
+
+        top_5 = skill_counter.most_common(5)
+
+        for skill, count in top_5:
+
+            st.metric(
+                skill.title(),
+                count
+            )
 # ==========================================================
 # SKILL TABLE
 # ==========================================================
