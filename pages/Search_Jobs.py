@@ -1,177 +1,40 @@
-
-import streamlit as st
-import requests
+from serpapi import GoogleSearch
 import pandas as pd
 
-# ---------------- PAGE CONFIG ----------------
-st.set_page_config(
-    page_title="Live Multi-Portal Jobs",
-    page_icon="🌍",
-    layout="wide"
-)
+API_KEY = "7d2c5abba845c2d99003ac20a0110e9e075b067c1d20e374629b1ef7375c1978"
 
-# ---------------- HOME BUTTON ----------------
-top1, top2 = st.columns([8, 1])
+params = {
+    "engine": "google_jobs",
+    "q": "Data Analyst",
+    "location": "India",
+    "hl": "en",
+    "api_key": API_KEY
+}
 
-with top2:
-    if st.button("🏠 Home"):
-        st.switch_page("app.py")
-
-# ---------------- HEADER ----------------
-st.title("🌍 Live Job Search")
-st.caption("Jobs from RemoteOK + Arbeitnow + Remotive")
-
-search_term = st.text_input(
-    "Search Role or Skill",
-    "Data Analyst"
-)
+search = GoogleSearch(params)
+results = search.get_dict()
 
 job_list = []
 
-# =====================================================
-# RemoteOK
-# =====================================================
-try:
+for job in results.get("jobs_results", []):
 
-    headers = {
-        "User-Agent": "Mozilla/5.0"
-    }
-
-    response = requests.get(
-        "https://remoteok.com/api",
-        headers=headers
-    )
-
-    jobs = response.json()[1:]
-
-    for job in jobs:
-
-        role = job.get("position", "")
-        company = job.get("company", "")
-        location = job.get("location", "")
-        tags = ", ".join(job.get("tags", []))
-        url = job.get("url", "")
-
-        if (
-            search_term.lower() in role.lower()
-            or search_term.lower() in tags.lower()
-        ):
-
-            job_list.append({
-                "Source": "RemoteOK",
-                "Company": company,
-                "Role": role,
-                "Location": location,
-                "Skills": tags,
-                "Apply Link": url
-            })
-
-except:
-    pass
-
-
-# =====================================================
-# Arbeitnow
-# =====================================================
-try:
-
-    response = requests.get(
-        "https://www.arbeitnow.com/api/job-board-api"
-    )
-
-    jobs = response.json()["data"]
-
-    for job in jobs:
-
-        role = job.get("title", "")
-        company = job.get("company_name", "")
-        location = job.get("location", "")
-        tags = ", ".join(job.get("tags", []))
-        url = job.get("url", "")
-
-        if (
-            search_term.lower() in role.lower()
-            or search_term.lower() in tags.lower()
-        ):
-
-            job_list.append({
-                "Source": "Arbeitnow",
-                "Company": company,
-                "Role": role,
-                "Location": location,
-                "Skills": tags,
-                "Apply Link": url
-            })
-
-except:
-    pass
-
-
-# =====================================================
-# Remotive
-# =====================================================
-try:
-
-    response = requests.get(
-        "https://remotive.com/api/remote-jobs"
-    )
-
-    jobs = response.json()["jobs"]
-
-    for job in jobs:
-
-        role = job.get("title", "")
-        company = job.get("company_name", "")
-        location = job.get("candidate_required_location", "")
-        tags = ", ".join(job.get("tags", []))
-        url = job.get("url", "")
-
-        if (
-            search_term.lower() in role.lower()
-            or search_term.lower() in tags.lower()
-        ):
-
-            job_list.append({
-                "Source": "Remotive",
-                "Company": company,
-                "Role": role,
-                "Location": location,
-                "Skills": tags,
-                "Apply Link": url
-            })
-
-except:
-    pass
-
-
-# =====================================================
-# DISPLAY
-# =====================================================
+    job_list.append({
+        "Title": job.get("title"),
+        "Company": job.get("company_name"),
+        "Location": job.get("location"),
+        "Apply Link": job.get("related_links", [{}])[0].get("link", "")
+    })
 
 df = pd.DataFrame(job_list)
 
-df.reset_index(drop=True, inplace=True)
-
-st.metric(
-    "Jobs Found",
-    len(df)
+st.data_editor(
+    df,
+    hide_index=True,
+    use_container_width=True,
+    column_config={
+        "Apply Link": st.column_config.LinkColumn(
+            "Apply 🚀",
+            display_text="Open"
+        )
+    }
 )
-
-if len(df) > 0:
-
-    st.data_editor(
-        df,
-        hide_index=True,
-        use_container_width=True,
-        column_config={
-            "Apply Link": st.column_config.LinkColumn(
-                "Apply 🚀",
-                display_text="Apply"
-            )
-        }
-    )
-
-else:
-
-    st.warning("No jobs found.")
-
