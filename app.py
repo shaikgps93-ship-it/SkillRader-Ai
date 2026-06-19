@@ -343,27 +343,44 @@ except:
 # Top 10 skills
 top_skills = skill_counter.most_common(10)
 
-# Interactive search
+# ==========================================================
+# SEARCH LIVE SKILLS
+# ==========================================================
 search_skill = st.text_input(
-    "🔍 Search Skill"
-)
+    "🔍 Search Any Skill"
+).lower()
 
-st.subheader("🔥 Popular Skills")
+if search_skill:
 
-for skill, count in top_skills:
+    found = False
 
-    if search_skill.lower() in skill.lower():
+    for skill, count in skill_counter.items():
 
-        col1, col2 = st.columns([4,1])
+        if search_skill in skill.lower():
 
-        with col1:
-            st.success(f"🚀 {skill.title()}")
+            found = True
 
-        with col2:
+            st.success(f"🔥 {skill.title()}")
+
             st.metric(
                 "Popularity",
-                count
+                f"{count} Jobs"
             )
+
+            if count >= 50:
+                st.success("🚀 Very Popular")
+
+            elif count >= 20:
+                st.info("📈 High Demand")
+
+            else:
+                st.warning("🌱 Growing Skill")
+
+    if not found:
+
+        st.error(
+            "Skill not found in live market data."
+        )
 
 # ==========================================================
 # SKILL TABLE
