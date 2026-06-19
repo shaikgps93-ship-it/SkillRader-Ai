@@ -82,54 +82,114 @@ Analyze • Learn • Grow • Get Hired
 st.write("")
 st.write("")
 # ==========================================================
-# LIVE METRICS
+# LIVE DASHBOARD METRICS
 # ==========================================================
-import requests
+st.markdown("""
+<style>
 
-try:
-    response = requests.get(
-        "https://remoteok.com/api",
-        headers={"User-Agent": "Mozilla/5.0"}
-    )
+.metric-card{
+    background:rgba(22,27,34,0.85);
+    border:1px solid rgba(124,58,237,.25);
+    border-radius:22px;
+    padding:25px;
+    box-shadow:0px 0px 25px rgba(124,58,237,.15);
+    transition:0.3s;
+}
 
-    jobs_data = response.json()[1:]
+.metric-card:hover{
+    transform:translateY(-4px);
+    border:1px solid #7C3AED;
+}
 
-    total_jobs = len(jobs_data)
+.metric-number{
+    font-size:52px;
+    font-weight:700;
+    color:white;
+}
 
-    skills = set()
+.metric-label{
+    color:#94A3B8;
+    font-size:18px;
+}
 
-    for job in jobs_data:
+.metric-growth{
+    color:#22C55E;
+    font-size:16px;
+}
 
-        tags = job.get("tags", [])
+</style>
+""", unsafe_allow_html=True)
 
-        for tag in tags:
-            skills.add(tag)
 
-    total_skills = len(skills)
+c1, c2, c3, c4 = st.columns(4)
 
-except:
+with c1:
+    st.markdown(f"""
+    <div class="metric-card">
 
-    total_jobs = 0
-    total_skills = 0
+    💼 <span class="metric-label">Live Jobs</span>
 
-total_resumes = 1250
-avg_salary = "₹8.5 LPA"
+    <div class="metric-number">
+    {total_jobs}
+    </div>
 
-m1, m2, m3, m4 = st.columns(4)
+    <div class="metric-growth">
+    ↗ Updated Live
+    </div>
 
-with m1:
-    st.metric("💼 Live Jobs", f"{total_jobs:,}")
+    </div>
+    """, unsafe_allow_html=True)
 
-with m2:
-    st.metric("📄 Resumes Analyzed", f"{total_resumes:,}")
+with c2:
+    st.markdown(f"""
+    <div class="metric-card">
 
-with m3:
-    st.metric("📈 Skills Tracked", f"{total_skills}")
+    📄 <span class="metric-label">Resumes Analyzed</span>
 
-with m4:
-    st.metric("💰 Avg Salary", avg_salary)
+    <div class="metric-number">
+    {total_resumes}
+    </div>
 
-st.divider()
+    <div class="metric-growth">
+    ↗ +15%
+    </div>
+
+    </div>
+    """, unsafe_allow_html=True)
+
+with c3:
+    st.markdown(f"""
+    <div class="metric-card">
+
+    📈 <span class="metric-label">Skills Tracked</span>
+
+    <div class="metric-number">
+    {total_skills}
+    </div>
+
+    <div class="metric-growth">
+    ↗ Live Market Data
+    </div>
+
+    </div>
+    """, unsafe_allow_html=True)
+
+with c4:
+    st.markdown(f"""
+    <div class="metric-card">
+
+    💰 <span class="metric-label">Avg Salary</span>
+
+    <div class="metric-number">
+    ₹8.5
+    </div>
+
+    <div class="metric-growth">
+    LPA
+    </div>
+
+    </div>
+    """, unsafe_allow_html=True)
 
     
 #------------------Job Intelligence----------    
@@ -312,7 +372,4 @@ st.caption(
     "🚀 SkillRadar AI | Career Intelligence Platform"
 )
 
-# ---------------- FOOTER ----------------
-st.write("")
-st.caption("🚀 SkillRadar AI | Career Intelligence Platform")
 
