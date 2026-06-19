@@ -84,38 +84,52 @@ st.write("")
 # ==========================================================
 # LIVE METRICS
 # ==========================================================
+import requests
+
+try:
+    response = requests.get(
+        "https://remoteok.com/api",
+        headers={"User-Agent": "Mozilla/5.0"}
+    )
+
+    jobs_data = response.json()[1:]
+
+    total_jobs = len(jobs_data)
+
+    skills = set()
+
+    for job in jobs_data:
+
+        tags = job.get("tags", [])
+
+        for tag in tags:
+            skills.add(tag)
+
+    total_skills = len(skills)
+
+except:
+
+    total_jobs = 0
+    total_skills = 0
+
+total_resumes = 1250
+avg_salary = "₹8.5 LPA"
+
 m1, m2, m3, m4 = st.columns(4)
 
 with m1:
-    st.metric(
-        "💼 Live Jobs",
-        "12,540",
-        "+8%"
-    )
+    st.metric("💼 Live Jobs", f"{total_jobs:,}")
 
 with m2:
-    st.metric(
-        "📄 Resumes Analyzed",
-        "1,250+",
-        "+15%"
-    )
+    st.metric("📄 Resumes Analyzed", f"{total_resumes:,}")
 
 with m3:
-    st.metric(
-        "📈 Skills Tracked",
-        "500+",
-        "+12%"
-    )
+    st.metric("📈 Skills Tracked", f"{total_skills}")
 
 with m4:
-    st.metric(
-        "💰 Avg Salary",
-        "₹8.5 LPA",
-        "+7%"
-    )
+    st.metric("💰 Avg Salary", avg_salary)
 
 st.divider()
-
 
     
 #------------------Job Intelligence----------    
