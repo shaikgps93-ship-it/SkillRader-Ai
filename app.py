@@ -219,13 +219,98 @@ with a2:
 
     if st.button("💬 AI Chatbot", use_container_width=True):
         st.switch_page("pages/AI_Chatbot.py")
-# ---------------- SKILLS ----------------
-st.subheader("Top Skills")
+# ==========================================================
+# LIVE TRENDING SKILLS
+# ==========================================================
+import requests
+from collections import Counter
 
-st.progress(90, text="Python")
-st.progress(80, text="SQL")
-st.progress(70, text="Power BI")
-st.progress(60, text="Machine Learning")
+st.divider()
+st.subheader("🔥 Live Trending Skills")
+
+skill_counter = Counter()
+
+try:
+
+    response = requests.get(
+        "https://remoteok.com/api",
+        headers={"User-Agent": "Mozilla/5.0"},
+        timeout=10
+    )
+
+    jobs = response.json()[1:]
+
+    for job in jobs:
+
+        tags = job.get("tags", [])
+
+        for tag in tags:
+            skill_counter[tag] += 1
+
+except:
+    st.warning("Unable to fetch live skills.")
+
+# Top 10 skills
+top_skills = skill_counter.most_common(10)
+
+# Interactive search
+search_skill = st.text_input(
+    "🔍 Search Skill"
+)
+
+for skill, count in top_skills:
+
+    if search_skill.lower() in skill.lower():
+
+        percentage = min(count * 5, 100)
+
+        st.progress(
+            percentage / 100,
+            text=f"{skill} ({count} jobs)"
+        )
+
+# ==========================================================
+# SKILL TABLE
+# ==========================================================
+st.subheader("📊 Skill Demand Table")
+
+import pandas as pd
+
+skill_df = pd.DataFrame(
+    top_skills,
+    columns=["Skill", "Jobs Found"]
+)
+
+st.dataframe(
+    skill_df,
+    use_container_width=True,
+    hide_index=True
+)
+
+# ==========================================================
+# HOT SKILLS BADGES
+# ==========================================================
+st.subheader("🚀 Hottest Skills")
+
+cols = st.columns(5)
+
+for i, (skill, count) in enumerate(top_skills[:5]):
+
+    with cols[i]:
+
+        st.metric(
+            skill,
+            f"{count} Jobs"
+        )
+
+# ==========================================================
+# FOOTER
+# ==========================================================
+st.divider()
+
+st.caption(
+    "🚀 SkillRadar AI | Career Intelligence Platform"
+)
 
 # ---------------- FOOTER ----------------
 st.write("")
