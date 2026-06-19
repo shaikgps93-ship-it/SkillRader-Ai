@@ -114,7 +114,7 @@ with m4:
     )
 
 st.divider()
-```
+
 
 # ---------------- METRICS ----------------
 m1, m2, m3, m4 = st.columns(4)
