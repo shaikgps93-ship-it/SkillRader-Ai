@@ -9,39 +9,44 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+st.markdown("""
+<style>
+
 .stApp{
-background:
-radial-gradient(circle at top left,#1E1B4B 0%,#0B1120 40%),
-linear-gradient(135deg,#0B1120,#111827);
+    background:
+    radial-gradient(circle at top left,#1E1B4B 0%,#0B1120 40%),
+    linear-gradient(135deg,#0B1120,#111827);
 }
 
 /* Metrics */
 div[data-testid="metric-container"]{
-background:rgba(22,27,34,0.9);
-border:1px solid rgba(124,58,237,0.35);
-border-radius:20px;
-padding:20px;
-box-shadow:0px 0px 20px rgba(124,58,237,.15);
+    background:rgba(22,27,34,0.9);
+    border:1px solid rgba(124,58,237,0.35);
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0px 0px 20px rgba(124,58,237,.15);
 }
 
 /* Buttons */
 .stButton > button{
-height:70px;
-font-size:18px;
-font-weight:600;
-border-radius:18px;
-background:#161B22;
-border:1px solid rgba(255,255,255,.08);
+    height:70px;
+    font-size:18px;
+    font-weight:600;
+    border-radius:18px;
+    background:#161B22;
+    border:1px solid rgba(255,255,255,.08);
 }
 
 .stButton > button:hover{
-border:1px solid #7C3AED;
+    border:1px solid #7C3AED;
 }
 
 #MainMenu {visibility:hidden;}
 footer {visibility:hidden;}
 header {visibility:hidden;}
 
+</style>
+""", unsafe_allow_html=True)
 # ==========================================================
 # HERO SECTION
 # ==========================================================
