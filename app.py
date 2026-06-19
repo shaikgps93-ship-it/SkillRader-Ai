@@ -59,18 +59,29 @@ header {
 # ==========================================================
 # HERO SECTION
 # ==========================================================
-st.markdown("""
-<div style='text-align:center;padding-top:20px;'>
 
-<h1 style='font-size:70px;color:white;margin-bottom:0px;'>
+st.markdown("""
+<div style="text-align:center;padding-top:25px;">
+
+<h1 style="
+font-size:80px;
+font-weight:800;
+margin-bottom:0;
+color:white;">
 🚀 SkillRadar AI
 </h1>
 
-<h3 style='color:#7C3AED;margin-top:0px;'>
-Your AI-Powered Career Intelligence Platform
-</h3>
+<h2 style="
+color:#7C3AED;
+font-weight:600;
+margin-top:10px;">
+AI Career Intelligence Platform
+</h2>
 
-<p style='font-size:20px;color:#94A3B8;'>
+<p style="
+font-size:22px;
+color:#94A3B8;
+margin-top:20px;">
 Analyze • Learn • Grow • Get Hired
 </p>
 
@@ -79,7 +90,6 @@ Analyze • Learn • Grow • Get Hired
 
 st.write("")
 st.write("")
-
 # ==========================================================
 # LIVE METRICS
 # ==========================================================
