@@ -183,6 +183,55 @@ with r2:
 
     if st.button("🤖 AI Resume Match", use_container_width=True):
         st.switch_page("pages/AI_Resume_Job_Match.py")
+        
+#------------------Skill Development----------    
+
+st.subheader("📈 Skill Development")
+
+s1, s2 = st.columns(2)
+
+with s1:
+
+    if st.button("⚡ Skill Gap Analyzer", use_container_width=True):
+        st.switch_page("pages/Skill_Gap_Analyzer.py")
+
+    if st.button("📊 Skills Analysis", use_container_width=True):
+        st.switch_page("pages/Skills_Analysis.py")
+
+with s2:
+
+    if st.button("📚 Learning Roadmap", use_container_width=True):
+        st.switch_page("pages/Learning_Roadmap.py")
+
+#------------------Salary Intelligence----------    
+st.subheader("💰 Salary Intelligence")
+
+sal1, sal2 = st.columns(2)
+
+with sal1:
+
+    if st.button("💰 Salary Predictor", use_container_width=True):
+        st.switch_page("pages/Salary_Predictor.py")
+
+with sal2:
+
+    if st.button("📈 Salary Insights", use_container_width=True):
+        st.switch_page("pages/Salary_Insights.py")
+
+# ---------------- Ai tools ----------------
+st.subheader("🤖 AI Tools")
+
+a1, a2 = st.columns(2)
+
+with a1:
+
+    if st.button("🤖 AI Career Advisor", use_container_width=True):
+        st.switch_page("pages/AI_Career_Advisor.py")
+
+with a2:
+
+    if st.button("💬 AI Chatbot", use_container_width=True):
+        st.switch_page("pages/AI_Chatbot.py")
 # ---------------- SKILLS ----------------
 st.subheader("Top Skills")
 
