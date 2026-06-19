@@ -145,7 +145,25 @@ with col2:
     ...
 with col3:
     ...
+st.subheader("📄 Resume Intelligence")
 
+r1, r2 = st.columns(2)
+
+with r1:
+
+    if st.button("📄 Resume Analyzer", use_container_width=True):
+        st.switch_page("pages/Resume_Analyzer.py")
+
+    if st.button("🎯 ATS Resume Score", use_container_width=True):
+        st.switch_page("pages/ATS_Resume_Score.py")
+
+    if st.button("✅ Resume Match Score", use_container_width=True):
+        st.switch_page("pages/Resume_Match_Score.py")
+
+with r2:
+
+    if st.button("🤖 AI Resume Match", use_container_width=True):
+        st.switch_page("pages/AI_Resume_Job_Match.py")
 # ---------------- SKILLS ----------------
 st.subheader("Top Skills")
 
