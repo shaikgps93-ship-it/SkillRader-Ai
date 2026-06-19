@@ -84,6 +84,38 @@ st.write("")
 # ==========================================================
 # LIVE DASHBOARD METRICS
 # ==========================================================
+import requests
+
+total_resumes = 1250
+
+try:
+
+    response = requests.get(
+        "https://remoteok.com/api",
+        headers={"User-Agent": "Mozilla/5.0"},
+        timeout=10
+    )
+
+    jobs_data = response.json()[1:]
+
+    total_jobs = len(jobs_data)
+
+    skills = set()
+
+    for job in jobs_data:
+
+        for tag in job.get("tags", []):
+
+            skills.add(tag)
+
+    total_skills = len(skills)
+
+except:
+
+    total_jobs = 0
+    total_skills = 0
+
+
 st.markdown("""
 <style>
 
@@ -93,12 +125,6 @@ st.markdown("""
     border-radius:22px;
     padding:25px;
     box-shadow:0px 0px 25px rgba(124,58,237,.15);
-    transition:0.3s;
-}
-
-.metric-card:hover{
-    transform:translateY(-4px);
-    border:1px solid #7C3AED;
 }
 
 .metric-number{
@@ -129,7 +155,8 @@ with c1:
 
     💼 <span class="metric-label">Live Jobs</span>
 
-    <div class="metric-number"
+    <div class="metric-number">
+    {total_jobs}
     </div>
 
     <div class="metric-growth">
@@ -138,6 +165,7 @@ with c1:
 
     </div>
     """, unsafe_allow_html=True)
+
 
 with c2:
     st.markdown(f"""
@@ -156,6 +184,7 @@ with c2:
     </div>
     """, unsafe_allow_html=True)
 
+
 with c3:
     st.markdown(f"""
     <div class="metric-card">
@@ -173,8 +202,9 @@ with c3:
     </div>
     """, unsafe_allow_html=True)
 
+
 with c4:
-    st.markdown(f"""
+    st.markdown("""
     <div class="metric-card">
 
     💰 <span class="metric-label">Avg Salary</span>
@@ -190,6 +220,7 @@ with c4:
     </div>
     """, unsafe_allow_html=True)
 
+st.divider()
     
 #------------------Job Intelligence----------    
 st.subheader("💼 Job Intelligence")
