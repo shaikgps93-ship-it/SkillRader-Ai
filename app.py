@@ -407,40 +407,22 @@ if search_skill:
                 count
             )
 # ==========================================================
-# SKILL TABLE
+# SKILL LEADERBOARD
 # ==========================================================
-st.subheader("📊 Skill Demand Leaderboard")
+st.subheader("🏆 Skill Leaderboard")
 
-table_data = []
+for rank, (skill, count) in enumerate(top_skills[:10], start=1):
 
-for rank, (skill, count) in enumerate(top_skills, start=1):
+    col1, col2, col3 = st.columns([1,4,2])
 
-    if count >= 50:
-        trend = "🔥 Hot"
+    with col1:
+        st.markdown(f"### #{rank}")
 
-    elif count >= 25:
-        trend = "📈 Rising"
+    with col2:
+        st.success(f"🚀 {skill.title()}")
 
-    else:
-        trend = "🌱 Growing"
-
-    table_data.append(
-        {
-            "🏆 Rank": rank,
-            "🚀 Skill": skill.title(),
-            "💼 Jobs": count,
-            "📊 Trend": trend
-        }
-    )
-
-skill_df = pd.DataFrame(table_data)
-
-st.dataframe(
-    skill_df,
-    use_container_width=True,
-    hide_index=True
-)
-
+    with col3:
+        st.metric("Jobs", count)
 # ==========================================================
 # HOT SKILLS BADGES
 # ==========================================================
