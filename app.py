@@ -134,17 +134,8 @@ with m4:
 
 st.divider()
 
-# ---------------- FEATURES ----------------
-st.subheader("🚀 Explore Features")
 
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    ...
-with col2:
-    ...
-with col3:
-    ...
+    
 #------------------Job Intelligence----------    
 st.subheader("💼 Job Intelligence")
 
