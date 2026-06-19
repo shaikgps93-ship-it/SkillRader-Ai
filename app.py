@@ -145,6 +145,24 @@ with col2:
     ...
 with col3:
     ...
+st.subheader("💼 Job Intelligence")
+
+j1, j2 = st.columns(2)
+
+with j1:
+
+    if st.button("🔍 Live Job Search", use_container_width=True):
+        st.switch_page("pages/Search_Jobs.py")
+
+    if st.button("🚀 Job Recommendation", use_container_width=True):
+        st.switch_page("pages/Job_Recommendation.py")
+
+with j2:
+
+    if st.button("🏢 Company Analysis", use_container_width=True):
+        st.switch_page("pages/Company_Analysis.py")
+
+
 st.subheader("📄 Resume Intelligence")
 
 r1, r2 = st.columns(2)
