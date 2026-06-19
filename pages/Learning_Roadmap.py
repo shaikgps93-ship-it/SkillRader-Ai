@@ -262,3 +262,155 @@ if selected_role == "DevOps Engineer":
         st.success(f"{i}. {step}")
 
     st.info("💰 Average Salary: ₹12–30 LPA")
+    # ---------------- SOFTWARE ENGINEER ----------------
+
+if selected_role == "Software Engineer":
+
+    st.subheader("💻 Software Engineer Roadmap")
+
+    roadmap = [
+        "Programming Fundamentals",
+        "Python / Java",
+        "OOP",
+        "Data Structures & Algorithms",
+        "Git & GitHub",
+        "APIs",
+        "Databases",
+        "Projects",
+        "Interview Preparation"
+    ]
+
+    for i, step in enumerate(roadmap, start=1):
+        st.success(f"{i}. {step}")
+
+    st.info("💰 Average Salary: ₹8–25 LPA")
+
+# ---------------- FULL STACK ----------------
+
+if selected_role == "Full Stack Developer":
+
+    st.subheader("🌐 Full Stack Developer Roadmap")
+
+    roadmap = [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "React",
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "REST APIs",
+        "Deployment"
+    ]
+
+    for i, step in enumerate(roadmap, start=1):
+        st.success(f"{i}. {step}")
+
+    st.info("💰 Average Salary: ₹8–22 LPA")
+    # ---------------- BUSINESS ANALYST ----------------
+
+if selected_role == "Business Analyst":
+
+    st.subheader("📊 Business Analyst Roadmap")
+
+    roadmap = [
+        "Excel",
+        "SQL",
+        "Power BI",
+        "Requirement Gathering",
+        "Agile Methodology",
+        "Jira",
+        "Stakeholder Management",
+        "Projects"
+    ]
+
+    for i, step in enumerate(roadmap, start=1):
+        st.success(f"{i}. {step}")
+
+    st.info("💰 Average Salary: ₹7–18 LPA")
+
+# ---------------- CYBERSECURITY ----------------
+
+if selected_role == "Cybersecurity Analyst":
+
+    st.subheader("🛡 Cybersecurity Analyst Roadmap")
+
+    roadmap = [
+        "Networking",
+        "Linux",
+        "Python",
+        "Security Fundamentals",
+        "SIEM Tools",
+        "SOC Concepts",
+        "Ethical Hacking Basics",
+        "Projects"
+    ]
+
+    for i, step in enumerate(roadmap, start=1):
+        st.success(f"{i}. {step}")
+
+    st.info("💰 Average Salary: ₹8–20 LPA")
+    
+
+# ---------------- ANDROID ----------------
+
+if selected_role == "Android Developer":
+
+    st.subheader("📱 Android Developer Roadmap")
+
+    roadmap = [
+        "Java / Kotlin",
+        "Android Studio",
+        "Layouts",
+        "Firebase",
+        "REST APIs",
+        "Projects",
+        "Play Store Deployment"
+    ]
+
+    for i, step in enumerate(roadmap, start=1):
+        st.success(f"{i}. {step}")
+
+    st.info("💰 Average Salary: ₹7–18 LPA")
+
+# ---------------- GAME DEVELOPMENT ----------------
+
+if selected_role == "Game Developer":
+
+    st.subheader("🎮 Game Developer Roadmap")
+
+    roadmap = [
+        "C#",
+        "Unity",
+        "Game Physics",
+        "Animations",
+        "AI for Games",
+        "Blender Basics",
+        "Publishing"
+    ]
+
+    for i, step in enumerate(roadmap, start=1):
+        st.success(f"{i}. {step}")
+
+    st.info("💰 Average Salary: ₹7–20 LPA")
+    # ---------------- PRODUCT MANAGER ----------------
+
+if selected_role == "Product Manager":
+
+    st.subheader("📦 Product Manager Roadmap")
+
+    roadmap = [
+        "Business Fundamentals",
+        "Agile",
+        "Jira",
+        "Analytics",
+        "User Research",
+        "Stakeholder Management",
+        "Roadmap Planning"
+    ]
+
+    for i, step in enumerate(roadmap, start=1):
+        st.success(f"{i}. {step}")
+
+    st.info("💰 Average Salary: ₹12–30 LPA")
+    
