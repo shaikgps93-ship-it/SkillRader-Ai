@@ -129,8 +129,7 @@ with c1:
 
     💼 <span class="metric-label">Live Jobs</span>
 
-    <div class="metric-number">
-    {total_jobs}
+    <div class="metric-number"
     </div>
 
     <div class="metric-growth">
