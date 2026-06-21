@@ -47,40 +47,34 @@ header {visibility:hidden;}
 
 </style>
 """, unsafe_allow_html=True)
-# ==========================================================
-# HERO SECTION
-# ==========================================================
+# ---------------- TOP NAVIGATION ----------------
+nav1, nav2, nav3, nav4, nav5, nav6 = st.columns(6)
 
-st.markdown("""
-<div style="text-align:center;padding-top:25px;">
+with nav1:
+    if st.button("🏠 Home", use_container_width=True):
+        st.rerun()
 
-<h1 style="
-font-size:80px;
-font-weight:800;
-margin-bottom:0;
-color:white;">
-🚀 SkillRadar AI
-</h1>
+with nav2:
+    if st.button("📄 Resume", use_container_width=True):
+        st.switch_page("pages/Resume_Analyzer.py")
 
-<h2 style="
-color:#7C3AED;
-font-weight:600;
-margin-top:10px;">
-AI Career Intelligence Platform
-</h2>
+with nav3:
+    if st.button("💼 Jobs", use_container_width=True):
+        st.switch_page("pages/Search_Jobs.py")
 
-<p style="
-font-size:22px;
-color:#94A3B8;
-margin-top:20px;">
-Analyze • Learn • Grow • Get Hired
-</p>
+with nav4:
+    if st.button("💰 Salary", use_container_width=True):
+        st.switch_page("pages/Salary_Predictor.py")
 
-</div>
-""", unsafe_allow_html=True)
+with nav5:
+    if st.button("📚 Learning", use_container_width=True):
+        st.switch_page("pages/Learning_Roadmap.py")
 
-st.write("")
-st.write("")
+with nav6:
+    if st.button("🤖 AI", use_container_width=True):
+        st.switch_page("pages/AI_Chatbot.py")
+
+st.divider()
 # ==========================================================
 # LIVE DASHBOARD METRICS
 # ==========================================================
